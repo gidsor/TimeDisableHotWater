@@ -1,0 +1,7 @@
+## Xcode
+DerivedData/
+
+## Other
+*.xcbkptlist
+*.xcuserstate
+*.DS_Store
