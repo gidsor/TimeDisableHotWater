@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ScheduleEntity" representedClassName="ScheduleEntity" syncable="YES">
+        <attribute name="address" attributeType="String" defaultValueString=""/>
+        <attribute name="houseNumber" attributeType="String" defaultValueString=""/>
+        <attribute name="housing" attributeType="String" defaultValueString=""/>
+        <attribute name="liter" attributeType="String" defaultValueString=""/>
+        <attribute name="locality" attributeType="String" defaultValueString=""/>
+        <attribute name="orderIndex" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="shoutdownPeriod" attributeType="String" defaultValueString=""/>
+    </entity>
+    <elements>
+        <element name="ScheduleEntity" positionX="-54" positionY="-9" width="128" height="148"/>
+    </elements>
+</model>
