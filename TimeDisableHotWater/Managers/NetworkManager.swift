@@ -43,22 +43,4 @@ class NetworkManager {
         }
     }
     
-    func fetchSchedules(classifier: Classifier, completion: @escaping ([Schedule]?) -> Void) {
-        let directory = URL(fileURLWithPath: NSTemporaryDirectory())
-        let zipPath = directory.appendingPathComponent("archive.zip")
-        
-        let data = Data(base64Encoded: classifier.zipFileBase64Encoded)
-        try? data?.write(to: zipPath)
-        
-        try? Zip.unzipFile(zipPath, destination: directory, overwrite: true, password: nil, progress: nil) { (unzipedFilePath) in
-            guard let str = try? String(contentsOfFile: unzipedFilePath.absoluteString), let data = str.data(using: .utf8) else {
-                completion(nil)
-                return
-            }
-            
-            let schedules = try? JSONDecoder().decode(Array<Schedule>.self, from: data)
-            completion(schedules)
-        }
-    }
-    
 }
