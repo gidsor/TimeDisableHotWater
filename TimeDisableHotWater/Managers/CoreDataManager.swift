@@ -11,12 +11,14 @@ import CoreData
 
 class CoreDataManager {
     
+    let coreDataName = "TimeDisableHotWater"
+    
     static let shared = CoreDataManager()
     
     private init() { }
     
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "TimeDisableHotWater")
+        let container = NSPersistentContainer(name: coreDataName)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -24,14 +26,8 @@ class CoreDataManager {
         })
         return container
     }()
-    
-    var context: NSManagedObjectContext {
-        get {
-            return persistentContainer.viewContext
-        }
-    }
 
-    func saveContext () {
+    func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
@@ -44,28 +40,33 @@ class CoreDataManager {
     }
     
     func insert(schedules: [Schedule]) {
-        for (index, schedule) in schedules.enumerated() {
-            let scheduleEntity = ScheduleEntity(context: context)
-            scheduleEntity.map(with: schedule)
-            scheduleEntity.orderIndex = Int64(index)
+        persistentContainer.performBackgroundTask { (context) in
+            for (index, schedule) in schedules.enumerated() {
+                let scheduleEntity = ScheduleEntity(context: context)
+                scheduleEntity.map(with: schedule)
+                scheduleEntity.orderIndex = Int64(index)
+            }
+            try? context.save()
         }
-        
-        saveContext()
     }
     
-    func fetchSchedules() -> [Schedule]? {
-        let request = ScheduleEntity.fetchRequest() as NSFetchRequest<ScheduleEntity>
-        request.sortDescriptors = [NSSortDescriptor(key: #keyPath(ScheduleEntity.orderIndex), ascending: true)]
-        let scheduleEntities = try? context.fetch(request)
-        let schedules = scheduleEntities?.compactMap { Schedule(from: $0) }
-        return schedules
+    func fetchSchedules(completion: @escaping ([Schedule]?) -> Void) {
+        persistentContainer.performBackgroundTask { (context) in
+            let request = ScheduleEntity.fetchRequest() as NSFetchRequest<ScheduleEntity>
+            request.sortDescriptors = [NSSortDescriptor(key: #keyPath(ScheduleEntity.orderIndex), ascending: true)]
+            let scheduleEntities = try? context.fetch(request)
+            let schedules = scheduleEntities?.compactMap { Schedule(from: $0) }
+            completion(schedules)
+        }
     }
     
     func deleteAllSchedules() {
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ScheduleEntity")
-        let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
-        _ = try? context.execute(deleteRequest)
-        saveContext()
+        persistentContainer.performBackgroundTask { (context) in
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "ScheduleEntity")
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+            _ = try? context.execute(deleteRequest)
+            try? context.save()
+        }
     }
     
 }
