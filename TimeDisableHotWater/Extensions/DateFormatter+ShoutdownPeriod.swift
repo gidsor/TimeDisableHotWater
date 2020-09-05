@@ -10,21 +10,17 @@ import Foundation
 
 extension DateFormatter {
     
-    static var serverShoutdownPeriodFormatter: DateFormatter {
-        get {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "dd.MM.yyyy"
-            return formatter
-        }
-    }
+    static var serverShoutdownPeriodFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd.MM.yyyy"
+        return formatter
+    }()
     
-    static var localShoutdownPeriodFormatter: DateFormatter {
-        get {
-            let formatter = DateFormatter()
-            formatter.dateStyle = .medium
-            formatter.locale = Locale(identifier: "ru_RU")
-            return formatter
-        }
-    }
+    static var localShoutdownPeriodFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.locale = Locale(identifier: "ru_RU")
+        return formatter
+    }()
 
 }
