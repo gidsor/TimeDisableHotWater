@@ -10,6 +10,7 @@
 		C0027A5B2501342B00982063 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = C0027A5A2501342B00982063 /* Zip */; };
 		C0027A5D2501356B00982063 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0027A5C2501356B00982063 /* Schedule.swift */; };
 		C0027A6725017C8000982063 /* DateFormatter+ShoutdownPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0027A6625017C8000982063 /* DateFormatter+ShoutdownPeriod.swift */; };
+		C08787A72504380A008E9E38 /* ZipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08787A62504380A008E9E38 /* ZipManager.swift */; };
 		C09DCE1A250232AF00F3AD6C /* ScheduleEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09DCE19250232AF00F3AD6C /* ScheduleEntity+CoreDataClass.swift */; };
 		C0B2725D250105BD0089B332 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B2725C250105BD0089B332 /* AppDelegate.swift */; };
 		C0B27261250105BD0089B332 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B27260250105BD0089B332 /* ScheduleViewController.swift */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		C0027A5C2501356B00982063 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 		C0027A6625017C8000982063 /* DateFormatter+ShoutdownPeriod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+ShoutdownPeriod.swift"; sourceTree = "<group>"; };
+		C08787A62504380A008E9E38 /* ZipManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZipManager.swift; sourceTree = "<group>"; };
 		C09DCE19250232AF00F3AD6C /* ScheduleEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ScheduleEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		C0B27259250105BD0089B332 /* TimeDisableHotWater.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeDisableHotWater.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0B2725C250105BD0089B332 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			children = (
 				C0B27277250108B70089B332 /* NetworkManager.swift */,
 				C0BCDB5925020AE500BFD3FF /* CoreDataManager.swift */,
+				C08787A62504380A008E9E38 /* ZipManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C08787A72504380A008E9E38 /* ZipManager.swift in Sources */,
 				C0B2727E2501147D0089B332 /* Classifier.swift in Sources */,
 				C0B27278250108B70089B332 /* NetworkManager.swift in Sources */,
 				C0B27261250105BD0089B332 /* ScheduleViewController.swift in Sources */,

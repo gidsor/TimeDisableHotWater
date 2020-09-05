@@ -55,18 +55,18 @@ class ScheduleViewController: UIViewController {
                 }
                 return
             }
-            NetworkManager.shared.fetchSchedules(classifier: classifier) { (schedules) in
+            ZipManager.unzip(base64Encoded: classifier.zipFileBase64Encoded) { (data) in
                 DispatchQueue.main.async {
-                    guard let schedules = schedules else {
+                    if let data = data, let schedules = try? JSONDecoder().decode(Array<Schedule>.self, from: data) {
+                        CoreDataManager.shared.deleteAllSchedules()
+                        CoreDataManager.shared.insert(schedules: schedules)
+                        
+                        self.schedules = schedules
+                        self.tableView.reloadData()
+                        self.navigationItem.rightBarButtonItem = nil
+                    } else {
                         self.presentErrorAlert(message: "Возникла проблема с архивом. Попробуйте еще раз")
-                        return
                     }
-                    CoreDataManager.shared.deleteAllSchedules()
-                    CoreDataManager.shared.insert(schedules: schedules)
-                    
-                    self.schedules = schedules
-                    self.tableView.reloadData()
-                    self.navigationItem.rightBarButtonItem = nil
                 }
             }
         }
