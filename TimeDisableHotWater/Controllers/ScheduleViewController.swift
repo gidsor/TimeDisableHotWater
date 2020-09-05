@@ -73,9 +73,12 @@ class ScheduleViewController: UIViewController {
         let alertController = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.fetchSchedules))
-            let schedulesBackup = CoreDataManager.shared.fetchSchedules()
-            self.schedules = schedulesBackup ?? []
-            self.tableView.reloadData()
+            CoreDataManager.shared.fetchSchedules { (schedulesBackup) in
+                DispatchQueue.main.async {
+                    self.schedules = schedulesBackup ?? []
+                    self.tableView.reloadData()
+                }
+            }
         }))
         present(alertController, animated: true)
     }
