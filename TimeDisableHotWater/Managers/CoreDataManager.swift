@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-class CoreDataManager {
+final class CoreDataManager {
     
     let coreDataName = "TimeDisableHotWater"
     
@@ -56,7 +56,9 @@ class CoreDataManager {
             request.sortDescriptors = [NSSortDescriptor(key: #keyPath(ScheduleEntity.orderIndex), ascending: true)]
             let scheduleEntities = try? context.fetch(request)
             let schedules = scheduleEntities?.compactMap { Schedule(from: $0) }
-            completion(schedules)
+            DispatchQueue.main.async {
+                completion(schedules)
+            }
         }
     }
     
