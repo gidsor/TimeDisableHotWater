@@ -10,11 +10,11 @@ import Foundation
 import Alamofire
 import Zip
 
-enum NetworkError: Error {
-    case success, failure, canceled, unknown
-}
+final class NetworkManager {
 
-class NetworkManager {
+    enum NetworkError: Error {
+        case success, failure, canceled, unknown
+    }
     
     static let shared = NetworkManager()
     
@@ -32,12 +32,18 @@ class NetworkManager {
         return AF.request(hostname + path, method: .get).validate().responseDecodable(of: ClassifierResponse.self, queue: queue) { response in
             switch response.result {
             case .success(let classifierResponse):
-                completion(classifierResponse.responseData.classifiers, .success)
+                DispatchQueue.main.async {
+                    completion(classifierResponse.responseData.classifiers, .success)
+                }
             case .failure(let error as NSError):
                 if error.domain == NSURLErrorDomain, error.code == NSURLErrorCancelled {
-                    completion(nil, .canceled)
+                    DispatchQueue.main.async {
+                        completion(nil, .canceled)
+                    }
                 } else {
-                    completion(nil, .failure)
+                    DispatchQueue.main.async {
+                        completion(nil, .failure)
+                    }
                 }
             }
         }

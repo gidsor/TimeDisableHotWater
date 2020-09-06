@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C0027A5B2501342B00982063 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = C0027A5A2501342B00982063 /* Zip */; };
 		C0027A5D2501356B00982063 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0027A5C2501356B00982063 /* Schedule.swift */; };
 		C0027A6725017C8000982063 /* DateFormatter+ShoutdownPeriod.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0027A6625017C8000982063 /* DateFormatter+ShoutdownPeriod.swift */; };
+		C067F60B2504EEA200673488 /* Zip in Frameworks */ = {isa = PBXBuildFile; productRef = C067F60A2504EEA200673488 /* Zip */; };
 		C079438F2504BEAA00157FE3 /* AppStrings.swift in Sources */ = {isa = PBXBuildFile; fileRef = C079438E2504BEAA00157FE3 /* AppStrings.swift */; };
 		C08787A72504380A008E9E38 /* ZipManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08787A62504380A008E9E38 /* ZipManager.swift */; };
 		C09DCE1A250232AF00F3AD6C /* ScheduleEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09DCE19250232AF00F3AD6C /* ScheduleEntity+CoreDataClass.swift */; };
@@ -49,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C0027A5B2501342B00982063 /* Zip in Frameworks */,
+				C067F60B2504EEA200673488 /* Zip in Frameworks */,
 				C0B2727B2501096A0089B332 /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -161,7 +161,7 @@
 			name = TimeDisableHotWater;
 			packageProductDependencies = (
 				C0B2727A2501096A0089B332 /* Alamofire */,
-				C0027A5A2501342B00982063 /* Zip */,
+				C067F60A2504EEA200673488 /* Zip */,
 			);
 			productName = TimeDisableHotWater;
 			productReference = C0B27259250105BD0089B332 /* TimeDisableHotWater.app */;
@@ -193,7 +193,7 @@
 			mainGroup = C0B27250250105BD0089B332;
 			packageReferences = (
 				C0B272792501096A0089B332 /* XCRemoteSwiftPackageReference "Alamofire" */,
-				C0027A592501342B00982063 /* XCRemoteSwiftPackageReference "Zip" */,
+				C067F6092504EEA200673488 /* XCRemoteSwiftPackageReference "Zip" */,
 			);
 			productRefGroup = C0B2725A250105BD0089B332 /* Products */;
 			projectDirPath = "";
@@ -426,7 +426,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C0027A592501342B00982063 /* XCRemoteSwiftPackageReference "Zip" */ = {
+		C067F6092504EEA200673488 /* XCRemoteSwiftPackageReference "Zip" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/marmelroy/Zip";
 			requirement = {
@@ -445,9 +445,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C0027A5A2501342B00982063 /* Zip */ = {
+		C067F60A2504EEA200673488 /* Zip */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C0027A592501342B00982063 /* XCRemoteSwiftPackageReference "Zip" */;
+			package = C067F6092504EEA200673488 /* XCRemoteSwiftPackageReference "Zip" */;
 			productName = Zip;
 		};
 		C0B2727A2501096A0089B332 /* Alamofire */ = {

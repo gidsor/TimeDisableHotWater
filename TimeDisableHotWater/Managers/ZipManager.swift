@@ -9,7 +9,7 @@
 import Foundation
 import Zip
 
-class ZipManager {
+final class ZipManager {
     
     private init() { }
     
@@ -22,11 +22,15 @@ class ZipManager {
         
         try? Zip.unzipFile(zipPath, destination: directory, overwrite: true, password: nil, progress: nil) { (unzipedFilePath) in
             guard let str = try? String(contentsOfFile: unzipedFilePath.absoluteString), let data = str.data(using: .utf8) else {
-                completion(nil)
+                DispatchQueue.main.async {
+                    completion(nil)
+                }
                 return
             }
             
-            completion(data)
+            DispatchQueue.main.async {
+                completion(data)
+            }
         }
     }
     

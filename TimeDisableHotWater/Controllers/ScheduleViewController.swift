@@ -8,11 +8,15 @@
 
 import UIKit
 
-class ScheduleViewController: UIViewController {
+final class ScheduleViewController: UIViewController {
 
     private let tableView = UITableView()
     
-    private var schedules: [Schedule] = []
+    private var schedules: [Schedule] = [] {
+        didSet {
+            self.tableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,43 +50,12 @@ class ScheduleViewController: UIViewController {
         ])
     }
     
-    @objc private func fetchSchedules() {
-        let activityIndicatorView = UIActivityIndicatorView()
-        activityIndicatorView.startAnimating()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
-        NetworkManager.shared.fetchClassfiers { (classifiers, networkError) in
-            guard let classifier = classifiers?.first else {
-                DispatchQueue.main.async {
-                    self.presentErrorAlert(message: AppStrings.networkErrorMessage)
-                }
-                return
-            }
-            ZipManager.unzip(base64Encoded: classifier.zipFileBase64Encoded) { (data) in
-                DispatchQueue.main.async {
-                    if let data = data, let schedules = try? JSONDecoder().decode(Array<Schedule>.self, from: data) {
-                        CoreDataManager.shared.deleteAllSchedules()
-                        CoreDataManager.shared.insert(schedules: schedules)
-                        
-                        self.schedules = schedules
-                        self.tableView.reloadData()
-                        self.navigationItem.rightBarButtonItem = nil
-                    } else {
-                        self.presentErrorAlert(message: AppStrings.networkArchiveMessage)
-                    }
-                }
-            }
-        }
-    }
-    
     private func presentErrorAlert(message: String) {
         let alertController = UIAlertController(title: AppStrings.error, message: message, preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: AppStrings.ok, style: .default, handler: { _ in
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.fetchSchedules))
-            CoreDataManager.shared.fetchSchedules { (schedulesBackup) in
-                DispatchQueue.main.async {
-                    self.schedules = schedulesBackup ?? []
-                    self.tableView.reloadData()
-                }
+            CoreDataManager.shared.fetchSchedules { [weak self] (schedulesBackup) in
+                self?.schedules = schedulesBackup ?? []
             }
         }))
         present(alertController, animated: true)
@@ -117,6 +90,39 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
         cell.textLabel?.text = text
         
         return cell
+    }
+    
+}
+
+extension ScheduleViewController {
+    
+    @objc private func fetchSchedules() {
+        let activityIndicatorView = UIActivityIndicatorView()
+        activityIndicatorView.startAnimating()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+        
+        NetworkManager.shared.fetchClassfiers { [weak self] (classifiers, networkError) in
+            guard let self = self else { return }
+            
+            guard let classifier = classifiers?.first else {
+                self.presentErrorAlert(message: AppStrings.networkErrorMessage)
+                return
+            }
+            
+            ZipManager.unzip(base64Encoded: classifier.zipFileBase64Encoded) { [weak self] (data) in
+                guard let self = self else { return }
+                
+                if let data = data, let schedules = try? JSONDecoder().decode(Array<Schedule>.self, from: data) {
+                    CoreDataManager.shared.deleteAllSchedules()
+                    CoreDataManager.shared.insert(schedules: schedules)
+                    
+                    self.schedules = schedules
+                    self.navigationItem.rightBarButtonItem = nil
+                } else {
+                    self.presentErrorAlert(message: AppStrings.networkArchiveMessage)
+                }
+            }
+        }
     }
     
 }
