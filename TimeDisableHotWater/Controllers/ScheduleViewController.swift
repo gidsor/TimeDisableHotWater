@@ -31,6 +31,8 @@ class ScheduleViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
+        
         tableView.allowsSelection = false
         tableView.tableFooterView = UIView()
         
@@ -110,7 +112,7 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
         text += "\n\(chageShoutdownPeriodFormat(shoutdownPeriod: schedule.shoutdownPeriod))"
         
         
-        let cell = UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.text = text
         
