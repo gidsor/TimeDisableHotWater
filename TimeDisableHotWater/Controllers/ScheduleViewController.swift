@@ -24,7 +24,7 @@ class ScheduleViewController: UIViewController {
     }
     
     private func setupNavigationItem() {
-        navigationItem.title = "Сроки отключения горячей воды"
+        navigationItem.title = AppStrings.scheduleViewTitle
     }
     
     private func setupTableView() {
@@ -51,7 +51,7 @@ class ScheduleViewController: UIViewController {
         NetworkManager.shared.fetchClassfiers { (classifiers, networkError) in
             guard let classifier = classifiers?.first else {
                 DispatchQueue.main.async {
-                    self.presentErrorAlert(message: "Возникла проблема c интернетом. Попробуйте еще раз")
+                    self.presentErrorAlert(message: AppStrings.networkErrorMessage)
                 }
                 return
             }
@@ -65,7 +65,7 @@ class ScheduleViewController: UIViewController {
                         self.tableView.reloadData()
                         self.navigationItem.rightBarButtonItem = nil
                     } else {
-                        self.presentErrorAlert(message: "Возникла проблема с архивом. Попробуйте еще раз")
+                        self.presentErrorAlert(message: AppStrings.networkArchiveMessage)
                     }
                 }
             }
@@ -73,8 +73,8 @@ class ScheduleViewController: UIViewController {
     }
     
     private func presentErrorAlert(message: String) {
-        let alertController = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { _ in
+        let alertController = UIAlertController(title: AppStrings.error, message: message, preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: AppStrings.ok, style: .default, handler: { _ in
             self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(self.fetchSchedules))
             CoreDataManager.shared.fetchSchedules { (schedulesBackup) in
                 DispatchQueue.main.async {
@@ -104,9 +104,9 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let schedule = schedules[indexPath.row]
         
-        var text = "\(schedule.locality) \(schedule.address)\n" + "дом \(schedule.houseNumber)"
-        if !schedule.housing.isEmpty { text += " корпус \(schedule.housing)" }
-        if !schedule.liter.isEmpty { text += " литер \(schedule.liter)" }
+        var text = "\(schedule.locality) \(schedule.address)\n" + "\(AppStrings.house) \(schedule.houseNumber)"
+        if !schedule.housing.isEmpty { text += " \(AppStrings.housing) \(schedule.housing)" }
+        if !schedule.liter.isEmpty { text += " \(AppStrings.liter) \(schedule.liter)" }
         text += "\n\(chageShoutdownPeriodFormat(shoutdownPeriod: schedule.shoutdownPeriod))"
         
         
